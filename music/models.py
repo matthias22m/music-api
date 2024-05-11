@@ -3,9 +3,12 @@ from django.contrib.auth.models import User
 
 
 class Album(models.Model):
-    title = models.CharField(max_length=100, unique=True)
+    title = models.CharField(max_length=100)
     artist = models.CharField(max_length=100)
-    release_date = models.DateField(auto_created=True)
+    release_date = models.DateField(auto_now_add=True)
+    
+    class Meta:
+        unique_together = ('title','artist')
 
     def __str__(self):
         return self.title
@@ -18,7 +21,7 @@ class Music(models.Model):
     audio_file = models.FileField(upload_to='musics')
     posted_by = models.ForeignKey(User, on_delete=models.CASCADE)
     album = models.ForeignKey(
-        Album, blank=True, null=True, on_delete=models.PROTECT)
+        Album, blank=True, null=True, on_delete=models.PROTECT, related_name='musics')
 
     def __str__(self):
         return self.title
