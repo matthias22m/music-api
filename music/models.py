@@ -28,7 +28,8 @@ class Playlist(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField()
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
-    songs = models.ManyToManyField(Music, related_name='playlist_songs')
+    songs = models.ManyToManyField(
+        Music, blank=True, related_name='playlist_songs')
 
     def __str__(self):
         return self.title
