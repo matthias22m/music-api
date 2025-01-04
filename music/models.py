@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.conf import settings
 
 
 class Album(models.Model):
@@ -19,7 +19,7 @@ class Music(models.Model):
     artist = models.CharField(max_length=100)
     duration = models.DurationField()
     audio_file = models.FileField(upload_to='musics')
-    posted_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    posted_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     album = models.ForeignKey(
         Album, blank=True, null=True, on_delete=models.PROTECT, related_name='musics')
 
@@ -30,7 +30,7 @@ class Music(models.Model):
 class Playlist(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField()
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     songs = models.ManyToManyField(
         Music, blank=True, related_name='playlist_songs')
 
